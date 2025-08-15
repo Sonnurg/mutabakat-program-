@@ -9,11 +9,13 @@
 <body>
 
     <!-- Yükleme Alanı -->
-  <div id="uploadArea"></div>
-
+    <div class="upload-section">
+        <h2>Excel Dosyası Yükle</h2>
+        <input type="file" id="fileInput" accept=".xlsx,.xls">
+    </div>
 
     <!-- Mutabakat Şablonu (PDF için kullanılacak) -->
-    <div id="mutabakat-template" style="display:none;">
+    <div id="mutabakat-template" style="position: absolute; left: -9999px;">
         <p><u>Cari Kodu:</u> <span id="tpl-cariKod"></span></p>
         <p><u>Unvan:</u> <span id="tpl-unvan"></span></p>
         <p><u>Vergi Dairesi:</u> <span id="tpl-vergiDairesi"></span></p>

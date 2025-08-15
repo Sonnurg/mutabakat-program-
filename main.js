@@ -92,3 +92,44 @@ function numberToWords(amount) {
     if (kurus > 0) res += ' ' + (kurus<10 ? ones[kurus] : tens[Math.floor(kurus/10)] + (kurus%10>0 ? ' ' + ones[kurus%10] : '')) + ' kuruş';
     return res.trim();
 }
+
+// Tek PDF indir
+function generateSinglePDF(index) {
+    const doc = createPDF(excelData[index]);
+    doc.save(`${excelData[index].cariKod}_mutabakat.pdf`);
+}
+
+// Tümünü indir (ZIP)
+async function downloadAllPDFs() {
+    const zip = new JSZip();
+    for (let i = 0; i < excelData.length; i++) {
+        const pdfBlob = createPDF(excelData[i]).output('blob');
+        zip.file(`${excelData[i].cariKod}_mutabakat.pdf`, pdfBlob);
+    }
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mutabakatlar.zip';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+function updateTable() {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    excelData.forEach((d, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${d.cariKod}</td>
+            <td>${d.unvan}</td>
+            <td>${d.adres} ${d.adres2}</td>
+            <td>${d.ilce}</td>
+            <td>${d.il}</td>
+            <td>${formatMoney(d.borc)} TL</td>
+            <td>
+                <button onclick="generateSinglePDF(${i})">📄 PDF İndir</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}

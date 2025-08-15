@@ -1,55 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUTABAKAT</title>
-      <link rel="stylesheet" href="style.css" >
+    <title>Mutabakat Mektubu Generator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mutabakat Mektubu Generator</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-</head>
-<body>
-<div class="container">
-<div class="header">
-<h1>Mutabakat Mektubu Generator</h1>
-<p>Excel dosyanızdan otomatik PDF mutabakat mektupları oluşturun</p>
-</div>
 
-<div class="upload-section">
-<div class="upload-area" id="uploadArea">
-📁<br>Excel dosyanızı buraya sürükleyin veya tıklayın<br>
-<small>Desteklenen formatlar: .xlsx, .xls</small>
-<input type="file" id="fileInput" accept=".xlsx,.xls" />
-</div>
-</div>
+    <!-- Yükleme Alanı -->
+    <div class="upload-section">
+        <input type="file" id="fileInput" accept=".xlsx,.xls">
+    </div>
 
-<div class="data-section" id="dataSection">
-<div class="controls">
-<div class="data-info"><strong id="recordCount">0</strong> kayıt bulundu</div>
-<div>
-<button class="btn btn-success" id="downloadAllBtn" onclick="downloadAllPDFs()">📦 Tümünü İndir (ZIP)</button>
-<button class="btn btn-primary" onclick="loadNewFile()">🔄 Yeni Dosya Yükle</button>
-</div>
-</div>
-<div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
-<div class="status-message" id="statusMessage"></div>
-<table class="data-table" id="dataTable">
-<thead>
-<tr><th>Cari Kodu</th><th>Unvan</th><th>Adres</th><th>İlçe</th><th>İl</th><th>Borç</th><th>İşlem</th></tr>
-</thead>
-<tbody id="tableBody"></tbody>
-</table>
-</div>
-</div>
-<script src="main.js"></script>
+    <!-- Mutabakat Şablonu (PDF için kullanılacak) -->
+    <div id="mutabakat-template" style="display:none;">
+        <p><u>Cari Kodu:</u> <span id="tpl-cariKod"></span></p>
+        <p><u>Unvan:</u> <span id="tpl-unvan"></span></p>
+        <p><u>Vergi Dairesi:</u> <span id="tpl-vergiDairesi"></span></p>
+        <p><u>Vergi No:</u> <span id="tpl-vergiNo"></span></p>
+        <p><u>Adres:</u> <span id="tpl-adres"></span></p>
+        <p><u>İlçe:</u> <span id="tpl-ilce"></span></p>
+        <p><u>İl:</u> <span id="tpl-il"></span></p>
+
+        <p>Sayın <span id="tpl-unvan2"></span>,</p>
+
+        <p>Şirketimiz nezdindeki cari hesabınız <span id="tpl-tarih"></span> tarihi itibariyle aşağıdaki gibidir:</p>
+
+        <p><b><span id="tpl-borc"></span> (<span id="tpl-borcYazi"></span>)</b></p>
+
+        <p>Mutabık olup olmadığınızı gösteren bölümü doldurup imzalayarak 0212-651 72 69 numaralı faxa (mutabık değilsek ekstrenizle beraber) bildirmenizi rica ederiz.</p>
+
+        <p>Saygılarımızla,<br>SEVAL GIDA SAN. TİC. A.Ş.</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

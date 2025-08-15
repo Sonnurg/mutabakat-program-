@@ -145,7 +145,7 @@ function createPDF(data) {
     // Açıklama devamı
    
    yPos +=5; doc.text(`Mutabık olup olmadığınızı gösteren bölümü doldurup imzalayarak 0212-651 72 69 numaralı faxa `) ;
-   z
+   
     
    
 

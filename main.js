@@ -82,17 +82,46 @@ function formatMoney(amount) {
 
 function numberToWords(amount) {
     if (!amount || isNaN(amount)) return 'Sıfır TL';
-    const num = parseFloat(amount), lira = Math.floor(num), kurus = Math.round((num - lira) * 100);
+
+    // İlk 2 basamağı kuruş olarak al
+    const num = parseFloat(amount);
+    const lira = Math.floor(num);
+    const kurus = Math.floor(((num - lira) * 100).toFixed(2));
+
     const ones = ['', 'bir', 'iki', 'üç', 'dört', 'beş', 'altı', 'yedi', 'sekiz', 'dokuz'];
     const tens = ['', '', 'yirmi', 'otuz', 'kırk', 'elli', 'altmış', 'yetmiş', 'seksen', 'doksan'];
+
     let res = '';
-    if (lira >= 1000) res += (Math.floor(lira / 1000) === 1 ? 'bin' : ones[Math.floor(lira / 1000)] + ' bin');
+
+    // Binler
+    if (lira >= 1000) {
+        const binler = Math.floor(lira / 1000);
+        res += (binler === 1 ? 'bin' : ones[binler] + ' bin');
+    }
+
+    // Yüzler
     const rem = lira % 1000;
-    if (rem >= 100) res += (Math.floor(rem / 100) === 1 ? 'yüz' : ones[Math.floor(rem / 100)] + ' yüz');
+    if (rem >= 100) {
+        const yuzler = Math.floor(rem / 100);
+        res += (yuzler === 1 ? ' yüz' : ' ' + ones[yuzler] + ' yüz');
+    }
+
+    // Onlar ve Birler
     const lt = rem % 100;
-    if (lt >= 10) { res += ' ' + tens[Math.floor(lt / 10)]; if (lt % 10 > 0) res += ' ' + ones[lt % 10]; }
-    else if (lt > 0) res += ' ' + ones[lt];
+    if (lt >= 10) {
+        res += ' ' + tens[Math.floor(lt / 10)];
+        if (lt % 10 > 0) res += ' ' + ones[lt % 10];
+    } else if (lt > 0) {
+        res += ' ' + ones[lt];
+    }
+
     res += ' TL';
-    if (kurus > 0) res += ' ' + (kurus < 10 ? ones[kurus] : tens[Math.floor(kurus / 10)] + (kurus % 10 > 0 ? ' ' + ones[kurus % 10] : '')) + ' kuruş';
+
+    // Kuruş ekle
+    if (kurus > 0) {
+        if (kurus < 10) res += ' ' + ones[kurus] + ' kuruş';
+        else res += ' ' + tens[Math.floor(kurus / 10)] + (kurus % 10 > 0 ? ' ' + ones[kurus % 10] : '') + ' kuruş';
+    }
+
     return res.trim();
 }
